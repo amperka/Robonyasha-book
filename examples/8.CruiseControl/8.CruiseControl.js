@@ -13,7 +13,7 @@ function cruise(curMotor, STARTV, CRUISESPEED, DELTAV) {
     var V = STARTV;
     curMotor.write(V);
 
-    return function () {
+    return function() {
         counter++;
         if (counter % 12 !== 0) return;
         var deltaTime = getTime() - lastTime;

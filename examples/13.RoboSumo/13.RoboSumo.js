@@ -9,8 +9,8 @@ var neck = require('@amperka/servo').connect(P8);
 neck.write(90);
 
 var ultrasonic = require('@amperka/ultrasonic').connect({
-    trigPin: P12,
-    echoPin: P13
+    trigPin : P12,
+    echoPin : P13
 });
 
 var lineSensor = require('@amperka/analog-line-sensor');
@@ -20,20 +20,20 @@ var caution = false;
 
 function waitRollBack() {
     setTimeout(function() {
-        sumoist.go({l: ROTATE, r: -ROTATE});
+        sumoist.go({ l : ROTATE, r : -ROTATE });
         intervalID = setInterval(detectBorder, 10);
-    },500);
+    }, 500);
 }
 
 var detectBorder = function() {
     intervalID = clearInterval(intervalID);
     if (leftSensor.read() > BORDER_VALUE) {
         caution = true;
-        sumoist.go({r: -BACKWARD, l: -BACKWARD});
+        sumoist.go({ r : -BACKWARD, l : -BACKWARD });
         waitRollBack();
     } else if (rightSensor.read() > BORDER_VALUE) {
         caution = true;
-        sumoist.go({r: -BACKWARD, l: -BACKWARD});
+        sumoist.go({ r : -BACKWARD, l : -BACKWARD });
         waitRollBack();
     } else {
         caution = false;
@@ -47,12 +47,12 @@ var scan = function() {
     ultrasonic.ping(function(error, value) {
         if (!error && value < MAX_DISTANCE) {
             if (!caution) {
-                sumoist.go({l: FORWARD, r: FORWARD});
+                sumoist.go({ l : FORWARD, r : FORWARD });
             }
         } else {
-            sumoist.go({l: ROTATE, r: -ROTATE});
+            sumoist.go({ l : ROTATE, r : -ROTATE });
         }
-
+        
     }, 'cm');
 };
 

@@ -5,15 +5,15 @@ var DISTANCE_MAX = 14;
 var clingy = require('@amperka/robot-2wd').connect();
 
 var ultrasonic = require('@amperka/ultrasonic').connect({
-    trigPin: P12,
-    echoPin: P13
+    trigPin : P12,
+    echoPin : P13
 });
 
 var check = function(distance) {
     if (distance > DISTANCE_MAX) {
-        clingy.go({l: SPEED, r: SPEED});
+        clingy.go({ l : SPEED, r : SPEED });
     } else if (distance < DISTANCE_MIN) {
-        clingy.go({l: -SPEED, r: -SPEED});
+        clingy.go({ l : -SPEED, r : -SPEED });
     } else {
         clingy.stop();
     }

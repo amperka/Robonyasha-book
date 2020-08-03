@@ -3,23 +3,24 @@ var marsohod = require('@amperka/robot-2wd').connect();
 var receiver = require('@amperka/ir-receiver').connect(P3);
 
 receiver.on('receive', function(code) {
-    switch(code) {
+    switch (code) {
         case receiver.keys.TOP:
-            marsohod.go({l: V, r: V});
+            marsohod.go({ l : V, r : V });
             break;
         case receiver.keys.BOTTOM:
-            marsohod.go({l: -V, r: -V});
+            marsohod.go({ l : -V, r : -V });
             break;
         case receiver.keys.LEFT:
-            marsohod.go({l: 0, r: V});
+            marsohod.go({ l : 0, r : V });
             break;
         case receiver.keys.RIGHT:
-            marsohod.go({l: V, r: 0});
+            marsohod.go({ l : V, r : 0 });
             break;
         case receiver.keys.POWER:
             marsohod.stop();
             break;
-        default: break;
+        default:
+            break;
     }
 });
 
