@@ -2,16 +2,16 @@ var marsohod = require('@amperka/robot-2wd').connect();
 var receiver = require('@amperka/ir-receiver').connect(P3);
 
 receiver.on('receive', function(code) {
-    switch (code) {
-        case receiver.keys.TOP:
-            marsohod.go({ l : 1, r : 1 });
-            break;
-        case receiver.keys.POWER:
-            marsohod.stop();
-            break;
-        default:
-            break;
-    }
+  switch (code) {
+    case receiver.keys.TOP:
+        marsohod.go({ l : 1, r : 1 });
+        break;
+    case receiver.keys.POWER:
+        marsohod.stop();
+        break;
+    default:
+        break;
+  }
 });
 
 /*

@@ -9,8 +9,8 @@ var neck = require('@amperka/servo').connect(P8);
 neck.write(90);
 
 var ultrasonic = require('@amperka/ultrasonic').connect({
-    trigPin : P12,
-    echoPin : P13
+  trigPin : P12,
+  echoPin : P13
 });
 
 var lineSensor = require('@amperka/analog-line-sensor');
@@ -19,46 +19,46 @@ var rightSensor = lineSensor.connect(A1);
 var caution = false;
 
 function waitRollBack() {
-    setTimeout(function() {
-        sumoist.go({ l : ROTATE, r : -ROTATE });
-        intervalID = setInterval(detectBorder, 10);
-    }, 500);
+  setTimeout(function() {
+    sumoist.go({ l : ROTATE, r : -ROTATE });
+    intervalID = setInterval(detectBorder, 10);
+  }, 500);
 }
 
 var detectBorder = function() {
-    intervalID = clearInterval(intervalID);
-    if (leftSensor.read() > BORDER_VALUE) {
-        caution = true;
-        sumoist.go({ r : -BACKWARD, l : -BACKWARD });
-        waitRollBack();
-    } else if (rightSensor.read() > BORDER_VALUE) {
-        caution = true;
-        sumoist.go({ r : -BACKWARD, l : -BACKWARD });
-        waitRollBack();
-    } else {
-        caution = false;
-        intervalID = setInterval(detectBorder, 10);
-    }
+  intervalID = clearInterval(intervalID);
+  if (leftSensor.read() > BORDER_VALUE) {
+    caution = true;
+    sumoist.go({ r : -BACKWARD, l : -BACKWARD });
+    waitRollBack();
+  } else if (rightSensor.read() > BORDER_VALUE) {
+    caution = true;
+    sumoist.go({ r : -BACKWARD, l : -BACKWARD });
+    waitRollBack();
+  } else {
+    caution = false;
+    intervalID = setInterval(detectBorder, 10);
+  }
 };
 
 intervalID = setInterval(detectBorder, 10);
 
 var scan = function() {
-    ultrasonic.ping(function(error, value) {
-        if (!error && value < MAX_DISTANCE) {
-            if (!caution) {
-                sumoist.go({ l : FORWARD, r : FORWARD });
-            }
-        } else {
-            sumoist.go({ l : ROTATE, r : -ROTATE });
-        }
-        
-    }, 'cm');
+  ultrasonic.ping(function(error, value) {
+    if (!error && value < MAX_DISTANCE) {
+      if (!caution) {
+        sumoist.go({ l : FORWARD, r : FORWARD });
+      }
+    } else {
+      sumoist.go({ l : ROTATE, r : -ROTATE });
+    }
+
+  }, 'cm');
 };
 
 setInterval(scan, 100);
 
-/* Внимание! В книге пропала строка 55 кода, я заменил ее пустой строкой */
+/* Внимание! В книге пропала (пустая) строка 55 кода, для сохранения нумерации я заменил ее пустой строкой */
 
 /*
 (1-4) Заводим константы, чтобы задать скорость двигателей в режимах работы Робоняши: FORWARD — во время движения вперёд, выталкивая предметы со стола; BACKWARD — для движения назад, чтобы не упасть; ROTATE — во время вращения Робоняши вокруг себя в поисках предметов.

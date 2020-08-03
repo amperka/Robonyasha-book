@@ -7,31 +7,32 @@ var leftEncoder = encoder.connect(P10);
 var rightEncoder = encoder.connect(P9);
 
 function cruise(curMotor, STARTV, CRUISESPEED, DELTAV) {
-    var counter = 0;
-    var WHEEL_LENGTH = 195;
-    var lastTime = getTime();
-    var V = STARTV;
+  var counter = 0;
+  var WHEEL_LENGTH = 195;
+  var lastTime = getTime();
+  var V = STARTV;
+  curMotor.write(V);
+
+  return function() {
+    counter++;
+    if (counter % 12 !== 0)
+      return;
+    var deltaTime = getTime() - lastTime;
+    var speed = WHEEL_LENGTH / deltaTime / 1000;
+    lastTime = getTime();
+    if (speed < CRUISESPEED && Math.abs(V) < 1) {
+      V = V + DELTAV;
+
+    } else if (speed > CRUISESPEED && Math.abs(V) > 0) {
+      V = V - DELTAV;
+    }
     curMotor.write(V);
-
-    return function() {
-        counter++;
-        if (counter % 12 !== 0) return;
-        var deltaTime = getTime() - lastTime;
-        var speed = WHEEL_LENGTH / deltaTime / 1000;
-        lastTime = getTime();
-        if (speed < CRUISESPEED && Math.abs(V) < 1) {
-            V = V + DELTAV;
-
-        } else if (speed > CRUISESPEED && Math.abs(V) > 0) {
-            V = V - DELTAV;
-        }
-        curMotor.write(V);
-    };
+  };
 }
 leftEncoder.on('white', cruise(leftMotor, 0.3, 0.3, 0.01));
 rightEncoder.on('white', cruise(rightMotor, -0.3, 0.3, -0.01))
 
-/*
+    /*
 (9) Моторов два и, чтобы не писать один и тот же код дважды, создаём функцию cruise(). В скобках те параметры, которые нужно передать в функцию при вызове. curMotor указывает, с каким из моторов функция имеет дело — левым или правым. STARTV — начальное напряжение CRUISESPEED — целевая скорость в метрах  в секунду, которую робот будет стараться сохранять, а DELTAV — шаг, с которым функция будет подстраивать напряжение.
 (10-13) Переменные, объявленные внутри функции cruise(), называются локальными. Это значит, что они существуют только внутри функции. И использовать их «снаружи» не получится.
 (13-14) V — текущее напряжение на моторе. Записываем в V стартовое напряжение, чтобы робот начал ехать.

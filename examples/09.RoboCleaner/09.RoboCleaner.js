@@ -1,7 +1,7 @@
 var analogSensor = require('@amperka/analog-line-sensor').connect(A0);
 
 var showSignal = function() {
-    print('signal:', analogSensor.read('V').toFixed(3), 'volts');
+  print('signal:', analogSensor.read('V').toFixed(3), 'volts');
 };
 
 setInterval(showSignal, 100);

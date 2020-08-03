@@ -5,23 +5,23 @@ var leftSensor = lineSensor.connect(A0);
 var rightSensor = lineSensor.connect(A1);
 
 var lineFollower = require('@amperka/pid').create({
-    target : 0,
-    kp : 0.35,
-    ki : 0.05,
-    kd : 1.5,
-    outputMin : -1.5,
-    outputMax : 1.5
+  target : 0,
+  kp : 0.35,
+  ki : 0.05,
+  kd : 1.5,
+  outputMin : -1.5,
+  outputMax : 1.5
 });
 
 lineFollower.run(function() {
-    var right = rightSensor.read();
-    var left = leftSensor.read();
-    var error = left - right;
-    var output = lineFollower.update(error);
-    detective.go({
-        l : SPEED + output,
-        r : SPEED - output
-    });
+  var right = rightSensor.read();
+  var left = leftSensor.read();
+  var error = left - right;
+  var output = lineFollower.update(error);
+  detective.go({
+    l : SPEED + output,
+    r : SPEED - output
+  });
 }, 0.02);
 
 /*

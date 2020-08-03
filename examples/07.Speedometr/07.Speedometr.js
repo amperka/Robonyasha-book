@@ -11,13 +11,13 @@ var counter = 0;
 var lastTime = getTime();
 
 encoder.on('white', function() {
-    counter++;
-    if (counter % 12 === 0) {
-        var deltaTime = getTime() - lastTime;
-        speed = WHEEL_LENGTH / deltaTime / 1000;
-        lastTime = getTime();
-        print(speed.toFixed(2), 'm/s');
-    }
+  counter++;
+  if (counter % 12 === 0) {
+    var deltaTime = getTime() - lastTime;
+    speed = WHEEL_LENGTH / deltaTime / 1000;
+    lastTime = getTime();
+    print(speed.toFixed(2), 'm/s');
+  }
 });
 
 /*

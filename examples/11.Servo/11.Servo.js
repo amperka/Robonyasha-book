@@ -4,11 +4,11 @@ var angle = 90;
 var STEP = 5;
 
 setInterval(function() {
-    if (angle <= 30 || angle >= 150) {
-        STEP = -STEP;
-    }
-    angle = angle + STEP;
-    neck.write(angle);
+  if (angle <= 30 || angle >= 150) {
+    STEP = -STEP;
+  }
+  angle = angle + STEP;
+  neck.write(angle);
 }, 100);
 
 /*

@@ -11,25 +11,25 @@ var leftSensor = lineSensor.connect(A0);
 var rightSensor = lineSensor.connect(A1);
 
 function clean() {
-    if (leftSensor.read() > BORDER_VALUE) {
-        cleaner.go({ l : -BACKWARD_SPEED2, r : -BACKWARD_SPEED1 });
-    } else if (rightSensor.read() > BORDER_VALUE) {
-        cleaner.go({ l : -BACKWARD_SPEED1, r : -BACKWARD_SPEED2 });
-    } else {
-        cleaner.go({ l : FORWARD_SPEED, r : FORWARD_SPEED });
-    }
+  if (leftSensor.read() > BORDER_VALUE) {
+    cleaner.go({ l : -BACKWARD_SPEED2, r : -BACKWARD_SPEED1 });
+  } else if (rightSensor.read() > BORDER_VALUE) {
+    cleaner.go({ l : -BACKWARD_SPEED1, r : -BACKWARD_SPEED2 });
+  } else {
+    cleaner.go({ l : FORWARD_SPEED, r : FORWARD_SPEED });
+  }
 }
 receiver.on('receive', function(code) {
-    if (code === receiver.keys.PLAY) {
-        if (!intervalID) {
-            leftSensor.calibrate({ white : leftSensor.read() });
-            rightSensor.calibrate({ white : rightSensor.read() });
-            intervalID = setInterval(clean, 10);
-        } else {
-            cleaner.stop();
-            intervalID = clearInterval(intervalID);
-        }
+  if (code === receiver.keys.PLAY) {
+    if (!intervalID) {
+      leftSensor.calibrate({ white : leftSensor.read() });
+      rightSensor.calibrate({ white : rightSensor.read() });
+      intervalID = setInterval(clean, 10);
+    } else {
+      cleaner.stop();
+      intervalID = clearInterval(intervalID);
     }
+  }
 });
 
 /*

@@ -5,29 +5,29 @@ var DISTANCE_MAX = 14;
 var clingy = require('@amperka/robot-2wd').connect();
 
 var ultrasonic = require('@amperka/ultrasonic').connect({
-    trigPin : P12,
-    echoPin : P13
+  trigPin : P12,
+  echoPin : P13
 });
 
 var check = function(distance) {
-    if (distance > DISTANCE_MAX) {
-        clingy.go({ l : SPEED, r : SPEED });
-    } else if (distance < DISTANCE_MIN) {
-        clingy.go({ l : -SPEED, r : -SPEED });
-    } else {
-        clingy.stop();
-    }
+  if (distance > DISTANCE_MAX) {
+    clingy.go({ l : SPEED, r : SPEED });
+  } else if (distance < DISTANCE_MIN) {
+    clingy.go({ l : -SPEED, r : -SPEED });
+  } else {
+    clingy.stop();
+  }
 };
 
 setInterval(function() {
-    ultrasonic.ping(function(error, value) {
-        if (!error) {
-            check(value);
-        }
-    }, 'cm');
+  ultrasonic.ping(function(error, value) {
+    if (!error) {
+      check(value);
+    }
+  }, 'cm');
 }, 100)
 
-/*
+    /*
 (2-3) Константами DISTANCE_MIN и DISTANCE_MAX будем задавать минимальное и максимальное расстояние до ладони в сантиметрах.
 (7-10) Библиотека для работы с УЗ-датчиком называется '@amperka/ultrasonic'. В функцию connect передаём объект с указанием пинов, к которым подключены сигнальные пины датчика. trigPin — пин управления передатчиком, echoPin —  сигнальный пин приёмника.
 (13-19) Если расстояние до руки больше допустимого, робот едет вперёд. Если меньше — едет назад. Если расстояние в заданных пределах — робот просто стоит.

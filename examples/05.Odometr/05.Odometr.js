@@ -10,9 +10,9 @@ var STEP = 1 / 12;
 
 var revolutions = 0;
 encoder.on('white', function() {
-    revolutions = revolutions + STEP;
-    var distance = revolutions * WHEEL_LENGTH;
-    print(distance, 'mm');
+  revolutions = revolutions + STEP;
+  var distance = revolutions * WHEEL_LENGTH;
+  print(distance, 'mm');
 });
 
 /*
